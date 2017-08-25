@@ -1,0 +1,11 @@
+1. Qual seria o algoritmo de ordenação mais eficiente para cada caso?
+i) uma lista ordenada em ordem ascendente;
+R: Para este caso o método de ordenação por inserção se faz uma boa escolha, pois terá complexidade linear para essa situação
+
+ii) uma lista ordenada em ordem descendente;
+R: Deve-se escolher um algoritmo linear ou de complexidade O(n ln n). Para isso, heapsort e quicksort são uma boa escolha. 
+
+
+iii) uma lista com os valores desordenados.
+R: O heapsort se apresenta como uma boa opção pois sua complexidade é O(n ln n) sempre. Como não é possível saber a distriuição
+dos dados, este algoritmo deve ser escolhido. 

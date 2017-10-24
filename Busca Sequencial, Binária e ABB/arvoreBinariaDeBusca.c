@@ -126,76 +126,43 @@ void copyElement(element *origin, element *destiny){
 }
 
 // Busca menor elemento da subarvore direita
-element *getGreaterSuccessor(element *rightTree){
+element *getGreatestSuccessor(element *rightTree){
     element *aux = rightTree; 
-    if(aux == NULL){
-	return; 
-    }
     
     while(aux->left != NULL){
-	aux = aux->left; 
+		aux = aux->left; 
     }
 
     return aux; 
 }
 
-void removeNode(element **r, element **father, int key){
-    element *elementToBeRemoved, *aux, *aux2, *successor;
-    //puts("Elemento a ser removido");
-    //elementToBeRemoved = searchNode(father, (*r), key); 
-    //printNode(elementToBeRemoved);   
-    puts("No atual");
-    printNode((*r));
-    puts("pai");
-    printNode((*father));
-    getchar();
-    
-    if(key > (*r)->key){
-	father = r;
-	puts("Desce para direita");
-	removeNode(&(*r)->right, father, key);
-    }
-    if(key < (*r)->key){
-	father = r;
-	puts("Desce para a esquerda");	
-	removeNode(&(*r)->left, father, key);
-    }
-    
-    if((*r)->key == key){
-	if(father == r){
-	    puts("Arvore unitaria");
-	    free(*r);
-	    *r = NULL;
+element *removeNode(element *root, int key){
+	if(root == NULL ){
+		return root;
+	}
+	if(key < root->key){
+		root->left = removeNode(root->left, key);
+	}
+	else if(key > root->key){
+		root->right = removeNode(root->right, key);
 	}
 	else{
-	    if((*father)->left->key == (*r)->key){
-		puts("Eh um filho da esquerda");
+		if(root->left == NULL){
+			element *aux = root->right;
+			free(root);
+			return aux;
+		}
+		else if(root->right == NULL){
+			element *aux = root->left;
+			free(root);
+			return aux; 
+		}
 		
-		// Checa se o no nao tem filhos
-		if( (*r)->left == NULL && (*r)->right == NULL){
-		    
-		    if((*r)->key == (*father)->left->key ){
-			aux = *r;
-			free(*r);
-			*r = NULL;
-		    }
-		}
-	    }
-	    
-	    else if((*father)->right->key == (*r)->key){
-		puts("Eh um filho da direita");
-		// Checa se o no nao tem filhos
-		if( (*r)->left == NULL && (*r)->right == NULL){
-		    
-		    if((*r)->key == (*father)->right->key ){
-			aux = *r;
-			free(*r);
-			*r = NULL;
-		    }
-		}
-	    }
+		element *aux = getGreatestSuccessor(root->right);
+		root->key = aux->key;
+		root->right = removeNode(root->right, aux->key); 
 	}
-    }
+	
 }
     
 void printArray(int array[], int size){
@@ -249,7 +216,7 @@ void main(){
     srand(1);
     clock_t inicioBuscaMenor, inicioBuscaMaior, fimBuscaMenor, fimBuscaMaior;
     double tempoBuscaMaior, tempoBuscaMenor;
-    int n = 3;
+    int n = 12;
     int i;
     int array[n];
 
@@ -267,8 +234,7 @@ void main(){
     for(i = 0; i < n; i++){
 	insertNode(&t, array[i]);
     }
-    insertNode(&t, 7000);
-    insertNode(&t, 7001);
+  
     puts("Arvore gerada");
     printTree(t);
     puts("");
@@ -291,7 +257,9 @@ void main(){
     printf("\nAltura da arvore: %d", i); 
     */
     father = &t;
-    removeNode(&t, father, 7001);
+    t = removeNode(t, array[0]);
+    t = removeNode(t, array[1]);
+    t = removeNode(t, array[2]);
     puts("\nArvore apos a remocao");
     printTree(t);
     

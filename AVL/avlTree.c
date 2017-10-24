@@ -34,7 +34,7 @@ void doubleLeftRotation(){}
 void generateRandomArray(int array[], int n){
     int i;
     for(i = 0; i < n; i++){
-	array[i] = rand() % 10001;
+	array[i] = rand() % 1001;
     }
 }
 
@@ -90,11 +90,11 @@ void insertNode(element **r, int key){
     }
 
     if(key > (*r)->key){
-	//puts("direita");
+	// puts("direita");
 	insertNode(&((*r)->right), key);
     }
     else if(key < (*r)->key){
-	//puts("esquerda");
+	// puts("esquerda");
 	insertNode(&((*r)->left), key);
     }
 
@@ -137,86 +137,43 @@ void copyElement(element *origin, element *destiny){
 }
 
 // Busca menor elemento da subarvore direita
-element *getGreaterSuccessor(element *rightTree){
-    element *aux = rightTree->left;
+element *getGreatestSuccessor(element *rightTree){
+    element *aux = rightTree;
+
     while(aux->left != NULL){
-	aux = aux->left;
+		aux = aux->left;
     }
+
     return aux;
 }
 
-void removeNode(element **r, int key){
-    element *elementToBeRemoved, *aux, *aux2;
-    element **father = r;
-    elementToBeRemoved = searchNode(father, (*r), key);
-
-    if(elementToBeRemoved != NULL){
-	// Checa se o no tem filho direito
-	if(elementToBeRemoved->right != NULL){
-	    //Checa se nao tem filho esquerdo
-	    if(elementToBeRemoved->left == NULL){
-		if( (*father)->right->key == elementToBeRemoved->key  ){
-
-
-		}
-		else if ( (*father)->left->key == elementToBeRemoved->key  ){
-		    puts("Caso 1");
-		    (*father)->left = elementToBeRemoved->right;
-		    free(elementToBeRemoved);
-		}
-
-	    }
-	    // Caso em que tem os dois filhos
-	    else{
-		puts("Caso 2");
-		aux = getGreaterSuccessor(elementToBeRemoved->right);
-
-		// Elemento sucessor tem filho direito
-		if(aux->right != NULL){
-		    puts("Caso 3");
-		    aux2 = aux->right;
-		    free(elementToBeRemoved);
-		    elementToBeRemoved = NULL;
-		    elementToBeRemoved = aux;
-		    aux = aux2;
-		    aux2 = NULL;
-
-		}
-
-		// Elemento sucessor nao tem nenhum filho
-		else{
-		    puts("Caso 4");
-		    free(elementToBeRemoved);
-		    elementToBeRemoved = NULL;
-		    //copyElement(aux, elementToBeRemoved);
-		    elementToBeRemoved = aux;
-		    aux = NULL;
-		}
-	    }
+element *removeNode(element *root, int key){
+	if(root == NULL ){
+		return root;
 	}
-
-	// Caso em que so tem o filho a esquerda
-	else if(elementToBeRemoved->left != NULL){
-	    puts("Caso 5");
-
-	    aux = elementToBeRemoved->left;
-	    free(elementToBeRemoved);
-	    elementToBeRemoved = aux;
-	    aux = NULL;
+	if(key < root->key){
+		root->left = removeNode(root->left, key);
 	}
-
-	//Caso em que nao tem nenhum filho
+	else if(key > root->key){
+		root->right = removeNode(root->right, key);
+	}
 	else{
-	    puts("Caso 6");
-	    printNode(elementToBeRemoved);
-	    free(elementToBeRemoved);
-	    elementToBeRemoved = NULL;
+		if(root->left == NULL){
+			element *aux = root->right;
+			free(root);
+			return aux;
+		}
+		else if(root->right == NULL){
+			element *aux = root->left;
+			free(root);
+			return aux;
+		}
+
+		element *aux = getGreatestSuccessor(root->right);
+		root->key = aux->key;
+		root->right = removeNode(root->right, aux->key);
 	}
 
-    }
-    else{
-	return;
-    }
 }
 
 void printArray(int array[], int size){
@@ -251,16 +208,18 @@ int getSmallestElement(element **r){
     return smallest;
 }
 
-int getGreatestElement(element **r){
-    int greatest;
+element *getGreatestElement(element **r){
+    //int greatest;
     element *aux = *r;
+    element *aux2 = NULL;
     while (aux != NULL){
 	//printNode(aux);
-	greatest = aux->key;
+	//greatest = aux->key;
+	aux2 = aux;
 	aux = aux->right;
     }
 
-    return greatest;
+    return aux2;
 }
 
 
@@ -268,7 +227,7 @@ void main(){
     srand(1);
     clock_t inicioBuscaMenor, inicioBuscaMaior, fimBuscaMenor, fimBuscaMaior;
     double tempoBuscaMaior, tempoBuscaMenor;
-    int n = 1000;
+    int n = 12;
     int i;
     int array[n];
 
@@ -279,14 +238,19 @@ void main(){
     t = NULL;
 
     generateRandomArray(array, n);
-    //printf("Elements to be inserted: ");
-    //printArray(array, n);
+    printf("Elements to be inserted: ");
+    printArray(array, n);
+    puts("");
 
     for(i = 0; i < n; i++){
 	insertNode(&t, array[i]);
     }
-    //printTree(t);
-    inicioBuscaMenor = clock();
+
+    puts("Arvore gerada");
+    printTree(t);
+    puts("");
+
+    /*inicioBuscaMenor = clock();
     i = getSmallestElement(&t);
     printf("\n\nmenor=%d", i);
     fimBuscaMenor = clock();
@@ -302,4 +266,13 @@ void main(){
 
     i = getTreeHeight(&t);
     printf("\nAltura da arvore: %d", i);
+    */
+    father = &t;
+    t = removeNode(t, array[0]);
+    t = removeNode(t, array[1]);
+    t = removeNode(t, array[2]);
+    puts("\nArvore apos a remocao");
+    printTree(t);
+
+
 }

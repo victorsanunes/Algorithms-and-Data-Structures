@@ -1,0 +1,5 @@
+Histograma
+
+O histograma, também conhecido como distribuição de frequências, é a representação gráfica em colunas ou em barras (retângulos) de um conjunto de dados previamente tabulado e dividido em classes uniformes ou não uniformes.[1] A base de cada retângulo representa uma classe. A altura de cada retângulo representa a quantidade ou a frequência absoluta com que o valor da classe ocorre no conjunto de dados para classes uniformes ou a densidade de frequência para classes não uniformes.[2][3] Importante ferramenta da estatística, o histograma também é uma das chamadas sete ferramentas da qualidade.[4][5]
+
+Quando o volume de dados aumenta indefinidamente dentro do conjunto de dados e o intervalo de classes tende a zero (o que torna os retângulos cada vez mais finos e altos), a distribuição de frequência torna–se uma distribuição de densidade de probabilidades. A construção de histogramas tem caráter preliminar em qualquer estudo e é um importante indicador da distribuição de dados. Os histogramas podem indicar se uma distribuição se aproxima de uma função normal, assim como também podem indicar a mistura de populações quando se apresentam bimodais

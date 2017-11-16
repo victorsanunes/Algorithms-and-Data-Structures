@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct listCell{
 	int dest;
@@ -65,29 +66,9 @@ void printCell(listCell *cell){
 	printf("value=%d\n", cell->dest);
 }
 
-void insertQueue(int *q, int front, int rear, int vertex){
-	if(rear == MAX-1){
-		puts("Queue overflow");
-	}
-	else{
-		if(front == -1){
-			front = 0;
-		}
-		rear = rear + 1;
-		q[rear] = vertex;
-	}
-}
-
-void removeQueue(int *q, int front, int rear, int vertex){
-
-}
-
 int main(int argc, char **argv){
-	int queue[5];
-	int front, rear;
-	front = -1;
-	rear = -1;
 
+	// ========================= CRIA GRAFO ============================
 	graph *g1 = createGraph(5);
 	addEdge(g1, 0, 1);
     addEdge(g1, 0, 4);
@@ -98,5 +79,6 @@ int main(int argc, char **argv){
     addEdge(g1, 3, 4);
 
     printGraph(g1);
+
 	return 0;
 }

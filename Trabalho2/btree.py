@@ -366,15 +366,27 @@ if __name__ == "__main__":
     # print ("n = ", repr(n))
     # print ("w = ", repr(w))
     #
-    N = 4
+    N = 10
+    print("============= INSERÇÃO =============")
     for i in range(1, N+1):
         text = pre.preProcessText("sourcetexts/text"+str(i)+".txt",
                                     "sourcetexts/pt_stopwords.txt")
         freq = pre.getMostFrequenty(text)
-        bt.add(freq)
+        bt.add(freq+str(i))
 
     #     # bt.add(random.randrange(100*n))
 
     bt._internal_repr()
-    index = bt.find("resoluo".lower())
+    print("============= REMOÇÃO =============")
+    bt.remove("lutero")
+    bt._internal_repr()
+
+    print("============= QUERY =============")
+    index = bt.find("arquitetura")
+    print(index)
+    print(displayText(index))
+
+    print("============= QUERY =============")
+    index = bt.find("paulo")
+    print(index)
     print(displayText(index))

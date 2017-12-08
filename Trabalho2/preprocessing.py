@@ -1,6 +1,9 @@
 import operator
 import re
 
+from unicodedata import normalize
+
+
 def getMostFrequenty(text):
     frequency = dict()
     greatest = 0
@@ -14,6 +17,9 @@ def getMostFrequenty(text):
             word = i
             greatest = frequency[i]
     return word
+
+def remover_acentos(txt):
+    return normalize('NFKD', txt).encode('ASCII','ignore').decode('ASCII')
 
 def __readTextFromFile__(path):
     file = open(path, "r")
@@ -40,7 +46,8 @@ def preProcessText(text_path, stopwords_path):
                 splited_text.append(i.lower())
     final_text = list()
     for t in splited_text:
-        s = re.sub('[^a-zA-Z]+', '', t)
+        s = remover_acentos(t)
+        s = re.sub('[^a-zA-Z]+', '', s)
         if s not in stopwords and s != "":
             final_text.append(s.lower())
     return final_text
